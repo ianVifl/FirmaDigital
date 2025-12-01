@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Firma Digital</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            height: 100vh;
+            background: linear-gradient(-45deg, #1e3c72, #2a5298, #0f3460, #16213e);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Partículas mágicas */
+        .particles {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+        }
+
+        .particles span {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(0, 212, 255, 0.4);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.6);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) translateX(120px); opacity: 0; }
+        }
+
+        /* Card de registro */
+        .register-container {
+            position: relative;
+            z-index: 10;
+            width: 440px;
+            padding: 55px 45px;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            box-shadow:
+                0 25px 50px rgba(0, 0, 0, 0.5),
+                inset 0 0 40px rgba(255, 255, 255, 0.1);
+            animation: appear 1.3s ease-out forwards;
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        @keyframes appear {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 52px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #00d4ff, #667eea);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: pulse 4s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.95; }
+            50% { opacity: 1; transform: scale(1.04); }
+        }
+
+        h2 {
+            text-align: center;
+            color: white;
+            font-size: 34px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.4);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: rgba(255,255,255,0.85);
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        label {
+            position: absolute;
+            left: 20px;
+            top: 18px;
+            color: rgba(255,255,255,0.7);
+            font-size: 15px;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 18px 20px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 16px;
+            color: white;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        input::placeholder {
+            color: transparent;
+        }
+
+        input:focus {
+            border-color: #00ff9d;
+            box-shadow: 0 0 25px rgba(0, 255, 157, 0.5);
+            transform: scale(1.03);
+        }
+
+        input:focus + label,
+        input:not(:placeholder-shown) + label {
+            top: -12px;
+            left: 16px;
+            font-size: 12px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 0 10px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+        }
+
+        /* Errores con estilo */
+        .errors {
+            list-style: none;
+            padding: 8px 0 0 5px;
+            margin: 6px 0 0;
+            color: #ff6b6b;
+            font-size: 13px;
+            font-weight: 500;
+            text-shadow: 0 0 10px rgba(255, 107, 107, 0.4);
+        }
+
+        .errors li::before {
+            content: "⚠ ";
+        }
+
+        /* Botón verde épico */
+        .btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #28a745, #20c997, #00d4ff);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 19px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.5s ease;
+            box-shadow: 0 12px 35px rgba(40, 167, 69, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: 0.7s;
+        }
+
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(40, 167, 69, 0.7);
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .link {
+            text-align: center;
+            margin-top: 28px;
+            color: rgba(255,255,255,0.8);
+            font-size: 15px;
+        }
+
+        .link a {
+            color: #00d4ff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .link a:hover {
+            color: #fff;
+            text-shadow: 0 0 15px rgba(0,212,255,0.8);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="particles" id="particles"></div>
+
+    <div class="register-container">
+        <div class="logo">Firma Digital</div>
+        <h2>Crear Cuenta</h2>
+        <p class="subtitle">Únete y empieza a firmar digitalmente como en el futuro</p>
+
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+
+            <div class="form-group">
+                {{ form.nombre(placeholder=" ") }}
+                <label>Nombre Completo</label>
+                {% if form.nombre.errors %}
+                    <ul class="errors">{% for error in form.nombre.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.email(placeholder=" ") }}
+                <label>Correo electrónico</label>
+                {% if form.email.errors %}
+                    <ul class="errors">{% for error in form.email.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.password(placeholder=" ") }}
+                <label>Contraseña</label>
+                {% if form.password.errors %}
+                    <ul class="errors">{% for error in form.password.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.confirm_password(placeholder=" ") }}
+                <label>Confirmar contraseña</label>
+                {% if form.confirm_password.errors %}
+                    <ul class="errors">{% for error in form.confirm_password.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                {% endif %}
+            </div>
+
+            {{ form.submit(class="btn", value="Registrarse") }}
+
+            <div class="link">
+                ¿Ya tienes cuenta? <a href="{{ url_for('login') }}">Inicia sesión aquí</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Partículas everywhere
+        const particles = document.getElementById('particles');
+        for(let i = 0; i < 65; i++) {
+            const p = document.createElement('span');
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.animationDelay = Math.random() * 20 + 's';
+            p.style.animationDuration = 15 + Math.random() * 20 + 's';
+            particles.appendChild(p);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Bienvenido a FirmaFácil</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(-45deg, #1e3c72, #2a5298, #0f3460, #16213e);
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            position: relative;
+            overflow: hidden;
+            color: white;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Partículas flotantes premium */
+        .particles {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particles span {
+            position: absolute;
+            width: 4px; height: 4px;
+            background: rgba(0, 212, 255, 0.5);
+            border-radius: 50%;
+            animation: float 22s infinite linear;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.8);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) translateX(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) translateX(80px) rotate(360deg); opacity: 0; }
+        }
+
+        /* Card principal con glassmorphism nivel Apple Vision Pro */
+        .hero-card {
+            position: relative;
+            z-index: 10;
+            max-width: 950px;
+            padding: 80px 60px;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            border-radius: 32px;
+            border: 1.5px solid rgba(255, 255, 255, 0.25);
+            box-shadow:
+                0 30px 70px rgba(0, 0, 0, 0.5),
+                inset 0 0 50px rgba(255, 255, 255, 0.15);
+            text-align: center;
+            animation: appear 1.8s ease-out;
+        }
+
+        @keyframes appear {
+            from { opacity: 0; transform: scale(0.95) translateY(50px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        h1 {
+            font-size: 5.2rem;
+            font-weight: 900;
+            margin-bottom: 18px;
+            background: linear-gradient(135deg, #00d4ff, #667eea, #764ba2, #9d4edd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -3px;
+            text-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            animation: titlePulse 5s infinite;
+        }
+
+        @keyframes titlePulse {
+            0%, 100% { transform: scale(1); filter: brightness(1); }
+            50% { transform: scale(1.03); filter: brightness(1.4); }
+        }
+
+        p {
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            color: rgba(255,255,255,0.9);
+            font-weight: 300;
+        }
+
+        /* Nombre de usuario con estilo VIP */
+        .user-greeting {
+            font-size: 1.8rem;
+            margin: 40px 0;
+            color: #00d4ff;
+            text-shadow: 0 0 20px rgba(0,212,255,0.6);
+        }
+
+        .user-greeting strong {
+            background: linear-gradient(135deg, #00ff9d, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 900;
+        }
+
+        /* Botones aún más épicos */
+        .nav {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 50px;
+        }
+
+        .nav a {
+            position: relative;
+            padding: 20px 48px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: white;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            min-width: 250px;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-blue   { background: linear-gradient(135deg, #007bff, #00c3ff, #667eea); }
+        .btn-green  { background: linear-gradient(135deg, #28a745, #20c997, #00d4ff); }
+        .btn-red    { background: linear-gradient(135deg, #dc3545, #ff6b6b, #ff8c9d); }
+
+        .nav a::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -150%;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: 0.9s;
+        }
+
+        .nav a:hover {
+            transform: translateY(-12px) scale(1.08);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+        }
+
+        .nav a:hover::before {
+            left: 150%;
+        }
+
+        .nav a:active {
+            transform: translateY(-6px) scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Partículas de fondo -->
+    <div class="particles" id="particles"></div>
+
+    <div class="hero-card">
+        <h1>Firma Digital</h1>
+        <p>Tu plataforma segura para la firma digital de documentos.</p>
+
+        <div class="nav">
+            {% if current_user.is_authenticated %}
+                <p class="user-greeting">Hola, <strong>{{ current_user.nombre }}</strong> 👑</p>
+                <a href="{{ url_for('dashboard') }}" class="btn-blue">Ir al Panel de Control</a>
+                <a href="{{ url_for('logout') }}" class="btn-red">Cerrar Sesión</a>
+            {% else %}
+                <a href="{{ url_for('login') }}" class="btn-blue">Iniciar Sesión</a>
+                <a href="{{ url_for('registro') }}" class="btn-green">Registrarse</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        // Generar partículas mágicas
+        const container = document.getElementById('particles');
+        for(let i = 0; i < 70; i++) {
+            const particle = document.createElement('span');
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.animationDelay = Math.random() * 20 + 's';
+            particle.style.animationDuration = 18 + Math.random() * 15 + 's';
+            container.appendChild(particle);
+        }
+    </script>
+</body>
+</html>

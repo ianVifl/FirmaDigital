@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmar Firma - Firma Digital</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f4f4f4; margin: 0; }
+        .container { background: white; padding: 40px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 500px; text-align: center; }
+        h2 { color: #333; margin-bottom: 10px; }
+        p { color: #666; font-size: 1.1em; line-height: 1.6; }
+        .filename { font-weight: bold; color: #0056b3; }
+        .btn { width: 100%; padding: 12px; background-color: #28a745; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; margin-top: 20px;}
+        .btn:hover { background-color: #218838; }
+        .nav-link { display: block; text-align: center; margin-top: 15px; text-decoration: none; color: #666; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Confirmación de Firma</h2>
+        <p>Estás a punto de aplicar tu firma electrónica al documento:</p>
+        <p class="filename">{{ doc_nombre }}</p>
+        <p>Esta acción es legalmente vinculante y no se puede deshacer.</p>
+
+        <!-- Este formulario envía un POST a la misma URL para procesar la firma -->
+        <form method="POST" action="">
+            <!-- Token de seguridad (necesario si tuvieras un form de WTForms, pero para un simple botón no es vital, aunque es buena práctica) -->
+            <button type="submit" class="btn">Confirmar y Firmar</button>
+        </form>
+
+        <a href="{{ url_for('dashboard') }}" class="nav-link">Cancelar y volver al panel</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Control - FirmaFácil</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f8f9fa; margin: 0; }
+        .navbar { background-color: #343a40; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; color: white; }
+        .navbar h1 { margin: 0; font-size: 1.5em; }
+        .user-info span { margin-right: 15px; }
+        .btn-logout { background-color: #dc3545; color: white; text-decoration: none; padding: 8px 15px; border-radius: 4px; font-size: 0.9em; }
+        .btn-logout:hover { background-color: #c82333; }
+        .container { padding: 40px; max-width: 1000px; margin: 0 auto; }
+        .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 20px; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .card h3 { margin-top: 0; color: #444; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        .empty-state { color: #888; font-style: italic; margin-top: 10px; }
+        .action-btn { display: inline-block; margin-top: 20px; background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; }
+        .action-btn:hover { background-color: #0056b3; }
+
+        .doc-list { list-style: none; padding: 0; }
+        .doc-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #f0f0f0; }
+        .doc-item:last-child { border: 0; }
+        .doc-item span { color: #333; font-weight: 500; }
+
+        .btn-firmar { background: #28a745; color: white; text-decoration: none; padding: 5px 12px; border-radius: 4px; font-size: 0.85em; }
+        .btn-firmar:hover { background-color: #218838; }
+
+        .btn-descargar { background: #6c757d; color: white; text-decoration: none; padding: 5px 12px; border-radius: 4px; font-size: 0.85em; margin-left: 5px;}
+        .btn-descargar:hover { background-color: #5a6268; }
+
+        .alert { padding: 15px; margin-bottom: 20px; border-radius: 4px; text-align: center; }
+        .alert-success { background-color: #d4edda; color: #155724; }
+        .alert-info { background-color: #cce5ff; color: #004085; }
+        .alert-error { background-color: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>FirmaDigital Dashboard</h1>
+        <div class="user-info">
+            <span>Hola, <strong>{{ nombre_usuario }}</strong></span>
+            <a href="{{ url_for('logout') }}" class="btn-logout">Cerrar Sesión</a>
+        </div>
+    </div>
+
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <h2>Panel de Control</h2>
+        <a href="{{ url_for('subir_documento') }}" class="action-btn">+ Subir Nuevo Documento</a>
+
+        <div class="card-grid">
+            <div class="card" style="border-top: 4px solid #ffc107;">
+                <h3>✍️ Pendientes de mi Firma</h3>
+                {% if not firmas_pendientes %}
+                    <div class="empty-state">No tienes documentos pendientes por firmar.</div>
+                {% else %}
+                    <ul class="doc-list">
+                        {% for firma in firmas_pendientes %}
+                        <li class="doc-item">
+                            <span>{{ firma.documento.nombre_original }}</span>
+                            <div>
+                                <a href="{{ url_for('descargar', id_documento=firma.documento.id) }}" class="btn-descargar" title="Ver Documento">⬇</a>
+                                <a href="{{ url_for('firmar', id_firma=firma.id) }}" class="btn-firmar">Firmar Ahora</a>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="card" style="border-top: 4px solid #28a745;">
+                <h3>📤 Mis Documentos Enviados</h3>
+                {% if not documentos_enviados %}
+                    <div class="empty-state">Aún no has subido ningún documento.</div>
+                {% else %}
+                    <ul class="doc-list">
+                        {% for doc in documentos_enviados %}
+                        <li class="doc-item">
+                            <span>{{ doc.nombre_original }}</span>
+                            <a href="{{ url_for('descargar', id_documento=doc.id) }}" class="btn-descargar">⬇ Descargar</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
